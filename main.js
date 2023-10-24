@@ -1,35 +1,33 @@
 var mouseEvent = "empty";
 var last_position_of_x, last_position_of_y;
 
-    canvas = document.getElementById('myCanvas');
-    ctx = canvas.getContext("2d");
-    
-    color = "black";
-    width_of_line = 1;
+canvas = document.getElementById('myCanvas');
+ctx = canvas.getContext("2d");
 
-    canvas.addEventListener("mousedown", my_mousedown);
-    
-    function my_mousedown(e)
-    {
-        //Addictonal Activity start
-        color = document.getElementById("color").value;
-        width_of_line = document.getElementById("width_of_line").value;
-        //Addictonal Activity ends
+color = "black";
+width_of_line = 1;
 
-        mouseEvent = "mouseDown";
-    }
+canvas.addEventListener("mousedown", my_mousedown);
 
-    canvas.addEventListener("mousemove", my_mousemove);
-    function my_mousemove(e)
-    {
-        current_position_of_mouse_x = e.clientX - canvas.offsetLeft;
-        current_position_of_mouse_y = e.clientY - canvas.offsetTop;
+function my_mousedown(e) {
+    //Addictonal Activity start
+    color = document.getElementById("color").value;
+    width_of_line = document.getElementById("width_of_line").value;
+    //Addictonal Activity ends
 
-        if (mouseEvent == "mouseDown") {
+    mouseEvent = "mouseDown";
+}
+
+canvas.addEventListener("mousemove", my_mousemove);
+function my_mousemove(e) {
+    current_position_of_mouse_x = e.clientX - canvas.offsetLeft;
+    current_position_of_mouse_y = e.clientY - canvas.offsetTop;
+
+    if (mouseEvent == "mouseDown") {
         ctx.beginPath();
         ctx.strokeStyle = color;
         ctx.lineWidth = width_of_line;
-        
+
         /*
         Add the function moveTo() with coordinates
         last_position_of_x, last_position_of_y
@@ -39,26 +37,25 @@ var last_position_of_x, last_position_of_y;
         current_position_of_mouse_x, current_position_of_mouse_y
         to end creation of line
         */
-       
+        ctx.lineTo(current_position_of_mouse_x, current_position_of_mouse_y);
+        ctx.moveTo(last_position_of_x, last_position_of_y);
         ctx.stroke();
-        }
-
-        last_position_of_x = current_position_of_mouse_x; 
-        last_position_of_y = current_position_of_mouse_y;
-
     }
 
-    canvas.addEventListener("mouseup", my_mouseup);
-    function my_mouseup(e)
-    {
-        mouseEvent = "mouseUP";
-    }
+    last_position_of_x = current_position_of_mouse_x;
+    last_position_of_y = current_position_of_mouse_y;
 
-    canvas.addEventListener("mouseleave", my_mouseleave);
-    function my_mouseleave(e)
-    {
-        mouseEvent = "mouseleave";
-    }
+}
+
+canvas.addEventListener("mouseup", my_mouseup);
+function my_mouseup(e) {
+    mouseEvent = "mouseUP";
+}
+
+canvas.addEventListener("mouseleave", my_mouseleave);
+function my_mouseleave(e) {
+    mouseEvent = "mouseleave";
+}
 
 var last_position_of_touch_x, last_position_of_touch_y;
 
@@ -71,11 +68,13 @@ and assign it to new_width
 Decrease 300 from screen.height
 and assign it to new_height
 */
-var new_width = screen.width - 70;
-var new_height = screen.height - 300;
+screen.width = width;
+screen.height = height;
 
-if(width < 992)
-{
+new_width = screen.width -70;
+new_height = screen.height -300;
+
+if (width < 992) {
     document.getElementById("myCanvas").width = new_width;
     document.getElementById("myCanvas").height = new_height;
     document.body.style.overflow = "hidden";
@@ -83,22 +82,20 @@ if(width < 992)
 
 canvas.addEventListener("touchstart", my_touchstart);
 
-function my_touchstart(e) 
-{
+function my_touchstart(e) {
     console.log("my_touchstart");
     //Additional Activity
     color = document.getElementById("color").value;
     width_of_line = document.getElementById("width_of_line").value;
     //End Additional Activity
-         
+
     last_position_of_touch_x = e.touches[0].clientX - canvas.offsetLeft;
     last_position_of_touch_y = e.touches[0].clientY - canvas.offsetTop;
 }
 
 canvas.addEventListener("touchmove", my_touchmove);
 
-function my_touchmove(e) 
-{
+function my_touchmove(e) {
     current_position_of_touch_x = e.touches[0].clientX - canvas.offsetLeft;
     current_position_of_touch_y = e.touches[0].clientY - canvas.offsetTop;
     ctx.beginPath();
@@ -107,25 +104,22 @@ function my_touchmove(e)
     /*
         Add the function moveTo() with coordinates
         last_position_of_x, last_position_of_y
-        to start creation of line*/
-
-        moveTo(){
-            last_position_of_x, last_position_of_y = current_position_of_mouse_x, current_position_of_mouse_y
-        }
+        to start creation of line
         
-        /*Add the function lineTo() with coordinates
+        Add the function lineTo() with coordinates
         current_position_of_mouse_x, current_position_of_mouse_y
         to end creation of line    
     */
+    ctx.lineTo(current_position_of_mouse_x, current_position_of_mouse_y);
+    ctx.moveTo(last_position_of_x, last_position_of_y);
     ctx.stroke();
 
-    last_position_of_touch_x = current_position_of_touch_x; 
+    last_position_of_touch_x = current_position_of_touch_x;
     last_position_of_touch_y = current_position_of_touch_y;
 
-   ctx.lineTo(current_position_of_touch_x, current_position_of_touch_y)
 }
+
 //Additional Activity
-function clearArea()
-{
+function clearArea() {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 }
